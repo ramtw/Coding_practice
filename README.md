@@ -1,3 +1,3 @@
 # Coding Practice
-## Data structures and algorithms practice
-## SQL practice
+1. Data structures and algorithms practice
+2. SQL practice
