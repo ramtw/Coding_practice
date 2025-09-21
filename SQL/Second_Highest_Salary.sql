@@ -1,3 +1,4 @@
+-- Problem Link: https://leetcode.com/problems/second-highest-salary/description/?envType=study-plan-v2&envId=top-sql-50
 -- Method: 1
 (select distinct salary SecondHighestSalary
 from Employee
