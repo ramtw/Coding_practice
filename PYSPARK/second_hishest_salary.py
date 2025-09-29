@@ -4,7 +4,7 @@ from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, LongType
 
 data = [[1, 100], [2, 200], [3, 300], [4, 300], [5, 400], [6, 500], [7, 500], [8, 600], [9, 700]]
-data1 = [[1, 100], [2, 100], [3, 100]] // no second highest salary
+data1 = [[1, 100], [2, 100], [3, 100]] # no second highest salary
 
 
 schema = StructType([
