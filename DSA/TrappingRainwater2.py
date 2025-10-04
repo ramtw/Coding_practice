@@ -1,42 +1,48 @@
 # Problem Link: https://leetcode.com/problems/trapping-rain-water-ii/description/?envType=daily-question&envId=2025-10-03
+
 class Solution:
-    def trapRainWater(self, heightMap: List[List[int]]) -> int:
-        if not heightMap or not heightMap[0]:
-            return 0
-			
-			
-		# Initial
-		# Board cells cannot trap the water
-        m, n = len(heightMap), len(heightMap[0])
-        if m < 3 or n < 3:
-            return 0
-			
-			
-		# Add Board cells first
-        heap = []
+    def trapRainWater(self, hMap: List[List[int]]) -> int:
+        m=len(hMap)
+        n=len(hMap[0])
+        ans=0
+
+        pq = []
+        visited=[]
         for i in range(m):
-            for j in range(n):
-                if i == 0 or i == m - 1 or j == 0 or j == n - 1:
-                    heapq.heappush(heap, (heightMap[i][j], i, j))
-                    heightMap[i][j] = -1
-					
-					
-		# Start from level 0
-        level, res = 0, 0
-        
-        while heap:
-            height, x, y = heapq.heappop(heap)
-            level = max(height, level)
+            rv=[0]*n
+            visited.append(rv)
 
-            for i, j in [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]:
-                if 0 <= i < m and 0 <= j < n and heightMap[i][j] != -1:
-                    heapq.heappush(heap, (heightMap[i][j], i, j))
-					
-					# If cell's height smaller than the level, then it can trap the rain water
-                    if heightMap[i][j] < level:
-                        res += level - heightMap[i][j]
-						
-					# Set the height to -1 if the cell is visited
-                    heightMap[i][j] = -1
+        for c in range(n):
+            heappush(pq, (hMap[0][c], 0, c))
+            visited[0][c]=1
 
-        return res
+            heappush(pq, (hMap[m-1][c], m-1, c))
+            visited[m-1][c]=1
+
+        for r in range(1, m-1):
+            heappush(pq, (hMap[r][0], r, 0))
+            visited[r][0]=1
+
+            heappush(pq, (hMap[r][n-1], r, n-1))
+            visited[r][n-1]=1
+
+        # print(visited)
+        rd=[-1, 1, 0, 0]
+        cd=[0, 0, -1, 1]
+        while(pq):
+            t = heappop(pq)
+            # print(t)
+            for i in range(4):
+                x = t[1]+rd[i]
+                y = t[2]+cd[i]
+                if(x<0 or x>=m or y<0 or y>=n or visited[x][y]==1):
+                    # print(x, y)
+                    continue
+                # print(x, y)
+                h = max(hMap[x][y], t[0])
+                ans+=(h-hMap[x][y])
+                # print(x, y, hMap[x][y], t[0])
+                heappush(pq, (h, x, y))
+                visited[x][y]=1
+
+        return ans
